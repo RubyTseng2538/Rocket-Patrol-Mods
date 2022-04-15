@@ -21,6 +21,7 @@ class Play extends Phaser.Scene{
         this.ship03 = new Spaceship(this, game.config.width, borderUISize*6 + borderPadding*4, 'spaceship', 0, 10).setOrigin(0, 0);
         keyLEFT = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.LEFT);
         keyRIGHT = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.RIGHT);
+        keyR = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.R);
         this.p1Score = 0;
 
         let scoreConfig = {
@@ -48,9 +49,9 @@ class Play extends Phaser.Scene{
         scoreConfig.fixedWidth = 0;
 
         this.clock = this.time.delayedCall(30000, () => {
-            this.ship01.moveSpeed = 3;
-            this.ship02.moveSpeed = 3;
-            this.ship03.moveSpeed = 3;
+            this.ship01.moveSpeed = 5;
+            this.ship02.moveSpeed = 5;
+            this.ship03.moveSpeed = 5;
         })
         this.clock = this.time.delayedCall(60000, () => {
             this.add.text(game.config.width/2, game.config.height/2, 'GAME OVER', scoreConfig).setOrigin(0.5);
