@@ -6,8 +6,12 @@ class Menu extends Phaser.Scene{
         this.load.image('starfield', './assets/galaxy.png');
         this.load.image('title', './assets/title.png');
         this.load.audio('sfx_select', './assets/blip_select12.wav');
-        this.load.audio('sfx_explosion', './assets/explosion38.wav');
+        this.load.audio('sfx_explosion', './assets/space_crash.m4a');
+        this.load.audio('sfx_explosion2', './assets/space_crash2.m4a');
+        this.load.audio('sfx_explosion3', './assets/space_crash3.m4a');
+        this.load.audio('sfx_explosion4', './assets/space_crash4.m4a');
         this.load.audio('sfx_rocket', './assets/rocket_shot.wav');
+        this.load.audio('sfx_background', './assets/callisto.m4a');
     }
     create(){
         let menuConfig = {
