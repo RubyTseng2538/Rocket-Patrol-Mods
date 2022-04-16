@@ -4,33 +4,32 @@ class Play extends Phaser.Scene{
     }
     preload(){
         this.load.image('rocket', './assets/rocket.png');
+        this.load.image('ship', './assets/spaceship.png');
         this.load.image('starfield', './assets/galaxy.png');
         this.load.image('planet', './assets/planets.png');
-        this.load.spritesheet('explosion', './assets/explosion.png', {frameWidth: 64, frameHeight: 32, startFrame: 0, endFrame: 9});
-        this.load.spritesheet('spaceship', './assets/spaceship_sprite.png', {frameWidth: 64, frameHeight: 43, startFrame: 0, endFrame: 5});
+        this.load.image('gameover', './assets/gameover.png');
+        this.load.image('border', './assets/border.png');
+        this.load.spritesheet('explosion', './assets/explosion.png', {frameWidth: 55, frameHeight: 43, startFrame: 0, endFrame: 5});
     }
     create(){
         this.starfield = this.add.tileSprite(0, 0, 640, 480, 'starfield').setOrigin(0, 0);
         this.planet = this.add.tileSprite(0, 0, 640, 480, 'planet').setOrigin(0, 0);
-        this.add.rectangle(0, borderUISize+borderPadding, game.config.width, borderUISize*2, 0x00FF00).setOrigin(0, 0);
-        this.add.rectangle(0, 0, game.config.width, borderUISize, 0xFFFFFF).setOrigin(0, 0);
-        this.add.rectangle(0, game.config.height - borderUISize, game.config.width, borderUISize, 0xFFFFFF).setOrigin(0, 0);
-        this.add.rectangle(0, 0, borderUISize, game.config.height, 0xFFFFFF).setOrigin(0, 0);
-        this.add.rectangle(game.config.width - borderUISize, 0, borderUISize, game.config.height, 0xFFFFFF).setOrigin(0, 0);
-        this.p1Rocket = new Rocket(this, game.config.width/2, game.config.height - borderUISize - borderPadding, 'rocket').setOrigin(0.5, 0);
+        this.border = this.add.tileSprite(0, 0, 640, 480, 'border').setOrigin(0, 0);
+        this.p1Rocket = new Rocket(this, game.config.width/2, game.config.height -borderPadding -borderUISize ,'rocket').setOrigin(1, 0.75);
         this.ship01 = new Spaceship(this, game.config.width + borderUISize*6, borderUISize* 4, 'ship', 0, 30).setOrigin(0, 0);
         this.ship02 = new Spaceship(this, game.config.width + borderUISize*3, borderUISize*5+ borderPadding*2, 'ship', 0, 20). setOrigin(0, 0);
         this.ship03 = new Spaceship(this, game.config.width, borderUISize*6 + borderPadding*4, 'ship', 0, 10).setOrigin(0, 0);
         keyLEFT = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.LEFT);
         keyRIGHT = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.RIGHT);
+        keyF = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.F);
         keyR = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.R);
         this.p1Score = 0;
+        this.letime = 60000;   
 
         let scoreConfig = {
-            fontFamily: 'Courier',
+            fontFamily: 'monospace',
             fontSize: '28px',
-            backgroundColor: '#F3B141',
-            color: '#843605',
+            color: '#FFFFFF',
             align: 'right',
             padding: {
                 top: 5,
@@ -43,27 +42,19 @@ class Play extends Phaser.Scene{
 
         this.anims.create({
             key: 'explode',
-            frames: this.anims.generateFrameNumbers('explosion', {start: 0, end: 9, first: 0}),
-            frameRate: 30
-        });
-
-        this.anims.create({
-            key: 'ship',
-            frames: this.anims.generateFrameNumbers('spaceship', {start: 0, end: 5, first: 0}),
+            frames: this.anims.generateFrameNumbers('explosion', {start: 0, end: 5, first: 0}),
             frameRate: 30
         });
 
         this.gameOver = false;
         scoreConfig.fixedWidth = 0;
-
         this.clock = this.time.delayedCall(30000, () => {
-            this.ship01.moveSpeed = 5;
-            this.ship02.moveSpeed = 5;
-            this.ship03.moveSpeed = 5;
+            this.ship01.moveSpeed = 2.25;
+            this.ship02.moveSpeed = 2.25;
+            this.ship03.moveSpeed = 2.25;
         })
         this.clock = this.time.delayedCall(60000, () => {
-            this.add.text(game.config.width/2, game.config.height/2, 'GAME OVER', scoreConfig).setOrigin(0.5);
-            this.add.text(game.config.width/2, game.config.height/2 +64, 'Press (R) to Restart or ← for Menu', scoreConfig).setOrigin(0.5);
+            this.end= this.add.tileSprite(155, 200, 330, 121, 'gameover').setOrigin(0, 0);
             this.gameOver = true;
         }, null, this);
    }
